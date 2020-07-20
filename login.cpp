@@ -1,6 +1,8 @@
 #include "login.h"
 #include "ui_login.h"
 #include "user_format.h"
+QString q_username;
+QString q_role;
 login::login(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::login)
@@ -44,7 +46,6 @@ login::login(QWidget *parent) :
     UserDB = new DataBase("userinfo.db");
     UserDB->DataBase_Connect();
     UserDB->DataBase_createTab(QString("userinfo"), 0);
-
     connect(login_btn, &QPushButton::clicked, this, &login::user_login);
 }
 
@@ -52,15 +53,31 @@ void login::user_login()
 {
     QString username = this->username_lEd->text().toLatin1();
     QString password = this->password_lEd->text().toLatin1();
+    if(verify_useraccount(username, password))
+    {
+        UserDB->DataBase_displayTab("userinfo");
+        q_username = username;
+        q_role = get_userrole(username);
+        qDebug() << "role" << q_role << endl;
+        accept();
+    } else {
+        QMessageBox::warning(this, "Warning", "用户名或密码错误");
+    }
+}
+
+bool login::verify_useraccount(QString username, QString password)
+{
     if(UserDB->DataBase_SelectTab("userinfo", "username", username, "password") == password)
     {
-        qDebug() << "login success" << endl;
-        this->username = username;
-        this->hide();
-        accept();
-    } else if(username == "admin" && password == "admin"){//超级管理员权限
-        qDebug() << "administor" << endl;
+        return true;
+    } else {
+        return false;
     }
+}
+
+QString login::get_userrole(QString username)
+{
+    return UserDB->DataBase_SelectTab("userinfo", "username", username, "role");
 }
 
 login::~login()

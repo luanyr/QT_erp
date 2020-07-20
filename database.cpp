@@ -81,6 +81,9 @@ QString DataBase::DataBase_SelectTab(QString tab_name, QString type_name, QStrin
         if(return_typename == "password")
         {
             return password;
+        } else if(return_typename == "role")
+        {
+            return role;
         }
     }
     return "0";

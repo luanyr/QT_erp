@@ -22,6 +22,7 @@ private:
     QLabel *username_real;
     QLabel *userrole_lab;
     QLabel *userrole_real;
+    
 };
 
 #endif // WIDGET_H
