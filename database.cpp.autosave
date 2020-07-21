@@ -48,6 +48,9 @@ bool DataBase::DataBase_createTab(QString tab_name,bool tab_type)
                       "[out_time] varchar(30)," +
                       "[status] varchar(30)" +
                       ")";
+        if(!query->exec(str))
+            return false;
+        return true;
     }
     return false;
 }

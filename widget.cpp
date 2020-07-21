@@ -55,7 +55,6 @@ void Widget::add_new()
 {
     UserDB = new DataBase("userinfo.db");
     UserDB->DataBase_Connect();
-    //UserDB->DataBase_createTab(tabname, 0);
     adn = new class add_new(this);
     if(adn->exec() == QDialog::Accepted)
     {

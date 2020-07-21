@@ -58,6 +58,6 @@ void Widget::add_new()
     adn = new class add_new(this);
     if(adn->exec() == QDialog::Accepted)
     {
-
+        
     }
 }
