@@ -4,6 +4,8 @@
 #include <QWidget>
 #include <qlabel.h>
 #include "login.h"
+#include "add_new.h"
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class Widget; }
 QT_END_NAMESPACE
@@ -15,13 +17,20 @@ class Widget : public QWidget
 public:
     Widget(QWidget *parent = nullptr);
     ~Widget();
+    void display_userandrole();
+    void set_pushbutton();
+public slots:
+    void add_new();
 private:
     Ui::Widget *ui;
+    class DataBase *UserDB;
+    class add_new *adn;
     QLabel *title_lab;
     QLabel *username_lab;
     QLabel *username_real;
     QLabel *userrole_lab;
     QLabel *userrole_real;
+    QPushButton *add_new_btn;
 };
 
 #endif // WIDGET_H

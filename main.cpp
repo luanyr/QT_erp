@@ -8,6 +8,7 @@ int main(int argc, char *argv[])
     if(lg->exec() == QDialog::Accepted)
     {
         Widget w;
+        w.setWindowTitle("产品管理系统");
         w.show();
         return a.exec();
     }
