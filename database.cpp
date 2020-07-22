@@ -180,20 +180,26 @@ void DataBase::DataBase_add_pro(pro_format &pro_info, QString tab_name)
 
 void DataBase::DataBase_P2Tabview(QTableView *tabview, QString tabname)
 {
-    QString cmd;
-    qmodel = new QSqlQueryModel;
-    cmd = "select * from " + tabname +";";
-    qmodel->setQuery(cmd);
-    tabview->setModel(qmodel);
+//    QString cmd;
+//    qmodel = new QSqlQueryModel;
+//    cmd = "select * from " + tabname;
+//    qmodel->setQuery(cmd);
+//    tabview->setModel(qmodel);
     query = new QSqlQuery;
-    cmd = "select * from " + tabname + ";";
-    while (query->next()) {
-        QString a = query->value(0).toString();
-        QString b = query->value(1).toString();
-        QString c = query->value(2).toString();
-        QString d = query->value(3).toString();
-        QString e = query->value(4).toString();
+    query->prepare("select * from " + tabname);
+    if(query->exec()) {
+        while (query->next()) {
+            int id = query->value(0).toInt();
+            QString a = query->value(1).toString();
+            QString b = query->value(2).toString();
+            QString c = query->value(3).toString();
+            QString d = query->value(4).toString();
+            QString e = query->value(5).toString();
 
-        qDebug() << a <<b << c << d << e << endl;
+            qDebug() << id << a <<b << c << d << e << endl;
+        }
+    } else {
+        qDebug() << query->lastError() << endl;
     }
+
 }

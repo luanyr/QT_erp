@@ -15,6 +15,8 @@ Widget::Widget(QWidget *parent)
     UserDB->DataBase_Connect();
     //UserDB->DataBase_ClearTab("all");
     this->set_tabname_cbx();
+    //pro_info = new pro_format("111", "0722", "0723", "OK", "good");
+    //UserDB->DataBase_add_pro(*pro_info, "vme");
     connect(add_new_btn, &QPushButton::clicked, this, &Widget::add_new);
     connect(Dis_AllTab_btn, &QPushButton::clicked, this, &Widget::display_all_tab);
     connect(dis_proinfo_btn, &QPushButton::clicked, this, &Widget::dis_pro_info);
@@ -79,12 +81,14 @@ void Widget::add_new()
     adn = new class add_new(this);
     if(adn->exec() == QDialog::Accepted)
     {
-        adn->close();
+        //adn->close();
     }
 }
 
 void Widget::display_all_tab()
 {
+    UserDB = new DataBase("Production.db");
+    UserDB->DataBase_Connect();
     this->tablist = UserDB->DataBase_GetAllTab();
     bool val = this->tablist.contains("sqlite_sequence");
     if(val == true)
@@ -100,8 +104,9 @@ void Widget::display_all_tab()
 
 void Widget::dis_pro_info()
 {
+    UserDB = new DataBase("Production.db");
+    UserDB->DataBase_Connect();
+    QString tabname = this->tab_name_cbx->currentText().toLocal8Bit();
     pro_tabview = new QTableView(this);
-    QString tabname = this->tab_name_cbx->currentText();
-    qDebug() << "tabname is " << tabname << endl;
     UserDB->DataBase_P2Tabview(pro_tabview, tabname);
 }

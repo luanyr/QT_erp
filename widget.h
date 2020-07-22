@@ -41,6 +41,7 @@ private:
     QPushButton *Dis_AllTab_btn;
     QPushButton *dis_proinfo_btn;
     QComboBox *tab_name_cbx;
+    pro_format *pro_info;
     QTableView *pro_tabview;
     QStringList tablist;
 };
