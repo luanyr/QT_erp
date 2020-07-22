@@ -6,6 +6,7 @@
 #include <QComboBox>
 #include <QTableView>
 #include <QSqlQueryModel>
+#include "pro_format.h"
 #include "login.h"
 #include "add_new.h"
 
@@ -42,7 +43,6 @@ private:
     QComboBox *tab_name_cbx;
     QTableView *pro_tabview;
     QStringList tablist;
-    pro_format *pro_info;
 };
 
 #endif // WIDGET_H

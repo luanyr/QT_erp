@@ -48,6 +48,8 @@ void add_new::add2DB()
         QMessageBox::warning(this, "错误", "该产品已存在！");
     } else {
         UserDB->DataBase_createTab(pro_name, 1);
+        pro_format pro_info("111", "0722", "0723", "OK", "good");
+        UserDB->DataBase_add_pro(pro_info, pro_name);
         QMessageBox::information(this, "完成", "产品创建成功");
         accept();
     }

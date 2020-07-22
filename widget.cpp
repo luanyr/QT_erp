@@ -15,11 +15,9 @@ Widget::Widget(QWidget *parent)
     UserDB->DataBase_Connect();
     //UserDB->DataBase_ClearTab("all");
     this->set_tabname_cbx();
-    pro_info = new pro_format("111", "0722", "0723", "OK", "good");
-    UserDB->DataBase_add_pro(*pro_info, "vme");
     connect(add_new_btn, &QPushButton::clicked, this, &Widget::add_new);
     connect(Dis_AllTab_btn, &QPushButton::clicked, this, &Widget::display_all_tab);
-    connect(dis_proinfo_btn, &QPushButton::clicked, this, &Widget::)
+    connect(dis_proinfo_btn, &QPushButton::clicked, this, &Widget::dis_pro_info);
 }
 
 Widget::~Widget()
@@ -103,4 +101,7 @@ void Widget::display_all_tab()
 void Widget::dis_pro_info()
 {
     pro_tabview = new QTableView(this);
+    QString tabname = this->tab_name_cbx->currentText();
+    qDebug() << "tabname is " << tabname << endl;
+    UserDB->DataBase_P2Tabview(pro_tabview, tabname);
 }

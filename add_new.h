@@ -7,6 +7,7 @@
 #include <QPushButton>
 #include <QMessageBox>
 #include "database.h"
+#include "user_format.h"
 namespace Ui {
 class add_new;
 }
