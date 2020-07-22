@@ -13,9 +13,13 @@ Widget::Widget(QWidget *parent)
     this->set_pushbutton();
     UserDB = new DataBase("Production.db");
     UserDB->DataBase_Connect();
+    //UserDB->DataBase_ClearTab("all");
     this->set_tabname_cbx();
+    pro_info = new pro_format("111", "0722", "0723", "OK", "good");
+    UserDB->DataBase_add_pro(*pro_info, "vme");
     connect(add_new_btn, &QPushButton::clicked, this, &Widget::add_new);
     connect(Dis_AllTab_btn, &QPushButton::clicked, this, &Widget::display_all_tab);
+    connect(dis_proinfo_btn, &QPushButton::clicked, this, &Widget::)
 }
 
 Widget::~Widget()
@@ -57,6 +61,10 @@ void Widget::set_pushbutton()
     Dis_AllTab_btn->move(150, 60);
     Dis_AllTab_btn->setFont(ft);
     Dis_AllTab_btn->setText("显示项目名");
+    dis_proinfo_btn = new QPushButton(this);
+    dis_proinfo_btn->move(270, 60);
+    dis_proinfo_btn->setFont(ft);
+    dis_proinfo_btn->setText("显示产品信息");
 }
 
 void Widget::set_tabname_cbx()
@@ -66,11 +74,6 @@ void Widget::set_tabname_cbx()
     tab_name_cbx = new QComboBox(this);
     tab_name_cbx->move(30, 120);
     tab_name_cbx->setFont(ft);
-//    QStringListIterator tabitr(this->tablist);
-//    while (tabitr.hasNext()) {
-//        QString tabname = tabitr.next().toLocal8Bit();
-//        this->tab_name_cbx->addItem(tabname);
-//    }
 }
 
 void Widget::add_new()
@@ -95,4 +98,9 @@ void Widget::display_all_tab()
         QString tabname = tabitr.next().toLocal8Bit();
         this->tab_name_cbx->addItem(tabname);
     }
+}
+
+void Widget::dis_pro_info()
+{
+    pro_tabview = new QTableView(this);
 }

@@ -4,6 +4,8 @@
 #include <QWidget>
 #include <qlabel.h>
 #include <QComboBox>
+#include <QTableView>
+#include <QSqlQueryModel>
 #include "login.h"
 #include "add_new.h"
 
@@ -22,6 +24,7 @@ public:
     void set_pushbutton();
     void display_all_tab();
     void set_tabname_cbx();
+    void dis_pro_info();
 public slots:
     void add_new();
 private:
@@ -35,8 +38,11 @@ private:
     QLabel *userrole_real;
     QPushButton *add_new_btn;
     QPushButton *Dis_AllTab_btn;
+    QPushButton *dis_proinfo_btn;
     QComboBox *tab_name_cbx;
+    QTableView *pro_tabview;
     QStringList tablist;
+    pro_format *pro_info;
 };
 
 #endif // WIDGET_H

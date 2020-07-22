@@ -44,9 +44,11 @@ bool DataBase::DataBase_createTab(QString tab_name,bool tab_type)
     } else if(tab_type == 1){
         QString str = "create table if not exists " + tab_name + " (" +
                       "[id] integer primary key autoincrement," +
-                      "[enter_time] varchar(30)," +
-                      "[out_time] varchar(30)," +
-                      "[status] varchar(30)" +
+                      "[Pro_No] varchar(30)," +
+                      "[Enter_Time] varchar(30)," +
+                      "[Out_Time] varchar(30)," +
+                      "[Status] varchar(30)," +
+                      "[Note] varchar(30)," +
                       ")";
         if(!query->exec(str))
             return false;
@@ -115,13 +117,30 @@ void DataBase::DataBase_displayTab(QString tab_name)
 
 void DataBase::DataBase_ClearTab(QString tab_name)
 {
+    QStringList tablist;
+
     query = new QSqlQuery;
-    query->prepare("drop table " + tab_name);
-    if(!query->exec())
+    if(tab_name == "all")
     {
-        qDebug() << query->lastError() << endl;
+        tablist = this->DataBase_GetAllTab();
+        QStringListIterator tabitr(tablist);
+        while (tabitr.hasNext()) {
+            query->prepare("drop table " + tabitr.next().toLocal8Bit());
+            if(!query->exec())
+            {
+                qDebug() << query->lastError() << endl;
+            } else {
+                qDebug() << "clear tab success" << endl;
+            }
+        }
     } else {
-        qDebug() << "clear tab success" << endl;
+        query->prepare("drop table " + tab_name);
+        if(!query->exec())
+        {
+            qDebug() << query->lastError() << endl;
+        } else {
+            qDebug() << "clear tab success" << endl;
+        }
     }
 }
 
@@ -139,4 +158,22 @@ QStringList DataBase::DataBase_GetAllTab()
 {
     QStringList tables = DB.tables();
     return  tables;
+}
+
+void DataBase::DataBase_add_pro(pro_format pro_info, QString tab_name)
+{
+    query = new QSqlQuery;
+    query->prepare("INSERT INTO " + tab_name + " VALUES (:id,:Pro_No,:Enter_Time,:Out_Time,:Status,:Note)");
+    query->bindValue(":Pro_No", pro_info.get_prono());
+    query->bindValue(":Enter_Time", pro_info.get_entertime());
+    query->bindValue(":Out_Time", pro_info.get_outtime());
+    query->bindValue(":Status", pro_info.get_prostatus());
+    query->bindValue(":Note", pro_info.get_pronote());
+    if(!query->exec())
+    {
+        qDebug() << query->lastError() << endl;
+    } else {
+        qDebug() << "insert success" << endl;
+    }
+
 }

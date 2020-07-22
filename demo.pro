@@ -20,6 +20,7 @@ SOURCES += \
     database.cpp \
     login.cpp \
     main.cpp \
+    pro_format.cpp \
     user_format.cpp \
     widget.cpp
 
@@ -27,6 +28,7 @@ HEADERS += \
     add_new.h \
     database.h \
     login.h \
+    pro_format.h \
     user_format.h \
     widget.h
 

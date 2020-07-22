@@ -9,7 +9,7 @@
 #include <QSqlQuery>
 #include <QSqlError>
 #include "user_format.h"
-
+#include "pro_format.h"
 class DataBase
 {
 public:
@@ -18,6 +18,7 @@ public:
     bool DataBase_Connect();
     bool DataBase_createTab(QString tab_name, bool tab_type);
     void DataBase_insert(user_info &user_info, bool insert_type, QString tab_name);
+    void DataBase_add_pro(pro_format pro_info, QString tab_name);
     void DataBase_Close();
     void DataBase_displayTab(QString tab_name);
     QString DataBase_SelectTab(QString tab_name, QString type_name, QString real_name, QString return_typename);
