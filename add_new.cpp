@@ -45,9 +45,10 @@ void add_new::add2DB()
     UserDB->DataBase_Connect();
     if(UserDB->DataBase_IsTabExist(pro_name))
     {
-        UserDB->DataBase_createTab(pro_name, 0);
-    } else {
         QMessageBox::warning(this, "错误", "该产品已存在！");
+    } else {
+        UserDB->DataBase_createTab(pro_name, 1);
+        QMessageBox::information(this, "完成", "产品创建成功");
+        accept();
     }
-
 }

@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <qlabel.h>
+#include <QComboBox>
 #include "login.h"
 #include "add_new.h"
 
@@ -19,6 +20,8 @@ public:
     ~Widget();
     void display_userandrole();
     void set_pushbutton();
+    void display_all_tab();
+    void set_tabname_cbx();
 public slots:
     void add_new();
 private:
@@ -31,6 +34,9 @@ private:
     QLabel *userrole_lab;
     QLabel *userrole_real;
     QPushButton *add_new_btn;
+    QPushButton *Dis_AllTab_btn;
+    QComboBox *tab_name_cbx;
+    QStringList tablist;
 };
 
 #endif // WIDGET_H

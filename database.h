@@ -23,7 +23,7 @@ public:
     QString DataBase_SelectTab(QString tab_name, QString type_name, QString real_name, QString return_typename);
     void DataBase_ClearTab(QString tab_name);
     bool DataBase_IsTabExist(QString tab_name);
-
+    QStringList DataBase_GetAllTab();
 private:
     QSqlQuery *query;
     QSqlDatabase DB;

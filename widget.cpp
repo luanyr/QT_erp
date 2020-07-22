@@ -6,12 +6,16 @@ Widget::Widget(QWidget *parent)
     , ui(new Ui::Widget)
 {
     ui->setupUi(this);
-    this->resize(3000, 2000);
+    this->resize(1500, 1000);
     //this->
     //输出用户名，以及权限；
     this->display_userandrole();
     this->set_pushbutton();
+    UserDB = new DataBase("Production.db");
+    UserDB->DataBase_Connect();
+    this->set_tabname_cbx();
     connect(add_new_btn, &QPushButton::clicked, this, &Widget::add_new);
+    connect(Dis_AllTab_btn, &QPushButton::clicked, this, &Widget::display_all_tab);
 }
 
 Widget::~Widget()
@@ -49,15 +53,46 @@ void Widget::set_pushbutton()
     add_new_btn->move(30, 60);
     add_new_btn->setFont(ft);
     add_new_btn->setText("添加新项目");
+    Dis_AllTab_btn = new QPushButton(this);
+    Dis_AllTab_btn->move(150, 60);
+    Dis_AllTab_btn->setFont(ft);
+    Dis_AllTab_btn->setText("显示项目名");
+}
+
+void Widget::set_tabname_cbx()
+{
+    QFont ft;
+    ft.setPointSize(10);
+    tab_name_cbx = new QComboBox(this);
+    tab_name_cbx->move(30, 120);
+    tab_name_cbx->setFont(ft);
+//    QStringListIterator tabitr(this->tablist);
+//    while (tabitr.hasNext()) {
+//        QString tabname = tabitr.next().toLocal8Bit();
+//        this->tab_name_cbx->addItem(tabname);
+//    }
 }
 
 void Widget::add_new()
 {
-    UserDB = new DataBase("userinfo.db");
-    UserDB->DataBase_Connect();
     adn = new class add_new(this);
     if(adn->exec() == QDialog::Accepted)
     {
+        adn->close();
+    }
+}
 
+void Widget::display_all_tab()
+{
+    this->tablist = UserDB->DataBase_GetAllTab();
+    bool val = this->tablist.contains("sqlite_sequence");
+    if(val == true)
+    {
+        this->tablist.removeOne("sqlite_sequence");
+    }
+    QStringListIterator tabitr(this->tablist);
+    while (tabitr.hasNext()) {
+        QString tabname = tabitr.next().toLocal8Bit();
+        this->tab_name_cbx->addItem(tabname);
     }
 }
