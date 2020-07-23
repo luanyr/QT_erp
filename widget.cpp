@@ -17,9 +17,11 @@ Widget::Widget(QWidget *parent)
     this->set_tabname_cbx();
     //pro_info = new pro_format("111", "0722", "0723", "OK", "good");
     //UserDB->DataBase_add_pro(*pro_info, "vme");
+    this->set_tabview();
     connect(add_new_btn, &QPushButton::clicked, this, &Widget::add_new);
     connect(Dis_AllTab_btn, &QPushButton::clicked, this, &Widget::display_all_tab);
     connect(dis_proinfo_btn, &QPushButton::clicked, this, &Widget::dis_pro_info);
+    connect(add_pro_btn, &QPushButton::clicked, this, &Widget::add_pro);
 }
 
 Widget::~Widget()
@@ -65,6 +67,10 @@ void Widget::set_pushbutton()
     dis_proinfo_btn->move(270, 60);
     dis_proinfo_btn->setFont(ft);
     dis_proinfo_btn->setText("显示产品信息");
+    add_pro_btn = new QPushButton(this);
+    add_pro_btn->move(390, 60);
+    add_pro_btn->setFont(ft);
+    add_pro_btn->setText("添加产品信息");
 }
 
 void Widget::set_tabname_cbx()
@@ -81,7 +87,16 @@ void Widget::add_new()
     adn = new class add_new(this);
     if(adn->exec() == QDialog::Accepted)
     {
-        //adn->close();
+        adn->close();
+    }
+}
+
+void Widget::add_pro()
+{
+    adp = new class add_proinfo(this);
+    if(adp->exec() == QDialog::Accepted)
+    {
+        adp->close();
     }
 }
 
@@ -102,11 +117,18 @@ void Widget::display_all_tab()
     }
 }
 
+void Widget::set_tabview()
+{
+    pro_tabview = new QTableView(this);
+    pro_tabview->resize(800, 600);
+    pro_tabview->move(200, 300);
+    pro_tabview->show();
+}
+
 void Widget::dis_pro_info()
 {
     UserDB = new DataBase("Production.db");
     UserDB->DataBase_Connect();
     QString tabname = this->tab_name_cbx->currentText().toLocal8Bit();
-    pro_tabview = new QTableView(this);
     UserDB->DataBase_P2Tabview(pro_tabview, tabname);
 }

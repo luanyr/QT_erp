@@ -17,6 +17,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     add_new.cpp \
+    add_proinfo.cpp \
     database.cpp \
     login.cpp \
     main.cpp \
@@ -26,6 +27,7 @@ SOURCES += \
 
 HEADERS += \
     add_new.h \
+    add_proinfo.h \
     database.h \
     login.h \
     pro_format.h \
@@ -34,6 +36,7 @@ HEADERS += \
 
 FORMS += \
     add_new.ui \
+    add_proinfo.ui \
     login.ui \
     widget.ui
 

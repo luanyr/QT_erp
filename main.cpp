@@ -1,8 +1,10 @@
 #include "widget.h"
 #include "login.h"
 #include <QApplication>
+#include <QTextCodec>
 int main(int argc, char *argv[])
 {
+
     QApplication a(argc, argv);
     login *lg = new login();
     if(lg->exec() == QDialog::Accepted)

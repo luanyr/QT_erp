@@ -10,8 +10,10 @@
 #include <QSqlQueryModel>
 #include <QSqlError>
 #include <QTableView>
+#include <QStandardItemModel>
 #include "user_format.h"
 #include "pro_format.h"
+#include <qsqlquerymodel.h>
 class DataBase
 {
 public:

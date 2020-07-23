@@ -180,26 +180,13 @@ void DataBase::DataBase_add_pro(pro_format &pro_info, QString tab_name)
 
 void DataBase::DataBase_P2Tabview(QTableView *tabview, QString tabname)
 {
-//    QString cmd;
-//    qmodel = new QSqlQueryModel;
-//    cmd = "select * from " + tabname;
-//    qmodel->setQuery(cmd);
-//    tabview->setModel(qmodel);
-    query = new QSqlQuery;
-    query->prepare("select * from " + tabname);
-    if(query->exec()) {
-        while (query->next()) {
-            int id = query->value(0).toInt();
-            QString a = query->value(1).toString();
-            QString b = query->value(2).toString();
-            QString c = query->value(3).toString();
-            QString d = query->value(4).toString();
-            QString e = query->value(5).toString();
-
-            qDebug() << id << a <<b << c << d << e << endl;
-        }
-    } else {
-        qDebug() << query->lastError() << endl;
-    }
-
+    static QSqlQueryModel *model = new QSqlQueryModel(tabview);
+    model->setQuery("select * from " + tabname + ";");
+    model->setHeaderData(0, Qt::Horizontal,QObject::tr("序号"));
+    model->setHeaderData(1, Qt::Horizontal,QObject::tr("板号"));
+    model->setHeaderData(2, Qt::Horizontal,QObject::tr("进入时间"));
+    model->setHeaderData(3, Qt::Horizontal,QObject::tr("离开时间"));
+    model->setHeaderData(4, Qt::Horizontal,QObject::tr("状态"));
+    model->setHeaderData(5, Qt::Horizontal,QObject::tr("备注"));
+    tabview->setModel(model);
 }
