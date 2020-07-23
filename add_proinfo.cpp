@@ -49,6 +49,7 @@ void add_proinfo::set_format()
     pro_out_de = new QDateEdit(this);
     pro_out_de->move(10, 150);
     pro_out_de->setDate(current_date);
+
     pro_status_cbx = new QComboBox(this);
     pro_status_cbx->move(210, 150);
     pro_status_cbx->addItem("待测试");
@@ -90,5 +91,4 @@ void add_proinfo::push2db()
     } else {
         QMessageBox::warning(this, "警告", "未输入板号");
     }
-
 }
