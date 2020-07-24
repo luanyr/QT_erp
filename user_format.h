@@ -14,3 +14,4 @@ private:
 };
 
 #endif // USER_FORMAT_H
+

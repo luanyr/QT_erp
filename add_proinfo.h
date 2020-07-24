@@ -32,6 +32,7 @@ private:
     void set_format();
     DataBase *UserDB;
     pro_format *new_pro_info;
+    QLabel *pro_name_lab;
     QLabel *pro_no_lab;
     QLabel *pro_entertime_lab;
     QLabel *pro_outtime_lab;

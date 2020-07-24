@@ -171,9 +171,9 @@ void DataBase::DataBase_add_pro(pro_format &pro_info, QString tab_name)
     query->bindValue(":Note", pro_info.get_pronote());
     if(!query->exec())
     {
-        qDebug() << query->lastError() << endl;
+        QMessageBox::warning(NULL, "warning", "添加数据出错");
     } else {
-        qDebug() << "insert success" << endl;
+        QMessageBox::information(NULL, "成功", "数据添加成功");
     }
 
 }
