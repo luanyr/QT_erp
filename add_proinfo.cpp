@@ -7,11 +7,14 @@ add_proinfo::add_proinfo(QWidget *parent) :
 {
     ui->setupUi(this);
     this->set_format();
+    UserDB = new DataBase("Production.db");
+    UserDB->DataBase_Connect();
     connect(confirm_btn, &QPushButton::clicked, this, &add_proinfo::enable_push);
 }
 
 add_proinfo::~add_proinfo()
 {
+    UserDB->DataBase_Close();
     delete ui;
 }
 
@@ -67,6 +70,20 @@ void add_proinfo::set_format()
     push_btn->setFont(ft);
     push_btn->setText("提交");
     push_btn->setDisabled(true);
+    pro_name_cbx = new QComboBox(this);
+    pro_name_cbx->move(10, 300);
+    QStringList tablist = UserDB->DataBase_GetAllTab();
+    bool val = tablist.contains("sqlite_sequence");
+    if(val == true)
+    {
+        tablist.removeOne("sqlite_sequence");
+    }
+    QStringListIterator tabitr(tablist);
+    while(tabitr.hasNext())
+    {
+        QString tabname = tabitr.next().toLocal8Bit();
+        pro_name_cbx->addItem(tabname);
+    }
 }
 
 void add_proinfo::enable_push()
@@ -86,6 +103,7 @@ void add_proinfo::push2db()
         push_outtime = outtime.toString();
         push_status = this->pro_status_cbx->currentText();
         push_note = this->pro_note_tEt->toPlainText();
+        QString tabname = this->pro_name_cbx->currentText();
 
 
     } else {

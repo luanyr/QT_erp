@@ -11,6 +11,10 @@
 #include <QTextEdit>
 #include <QPushButton>
 #include <QMessageBox>
+#include "database.h"
+#include "pro_format.h"
+#include <QStringList>
+#include <QStringListIterator>
 namespace Ui {
 class add_proinfo;
 }
@@ -26,6 +30,8 @@ public:
 private:
     Ui::add_proinfo *ui;
     void set_format();
+    DataBase *UserDB;
+    pro_format *new_pro_info;
     QLabel *pro_no_lab;
     QLabel *pro_entertime_lab;
     QLabel *pro_outtime_lab;
@@ -35,6 +41,7 @@ private:
     QDateEdit *pro_enter_de;
     QDateEdit *pro_out_de;
     QComboBox *pro_status_cbx;
+    QComboBox *pro_name_cbx;
     QTextEdit *pro_note_tEt;
     QPushButton *confirm_btn;
     QPushButton *push_btn;
