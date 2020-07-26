@@ -163,12 +163,13 @@ QStringList DataBase::DataBase_GetAllTab()
 void DataBase::DataBase_add_pro(pro_format &pro_info, QString tab_name)
 {
     query = new QSqlQuery;
-    query->prepare("INSERT INTO " + tab_name + " VALUES (:id,:Pro_No,:Enter_Time,:Out_Time,:Status,:Note)");
+    query->prepare("INSERT INTO " + tab_name + " VALUES (:id,:Pro_No,:Enter_Time,:Out_Time,:Status,:Note,:log)");
     query->bindValue(":Pro_No", pro_info.get_prono());
     query->bindValue(":Enter_Time", pro_info.get_entertime());
     query->bindValue(":Out_Time", pro_info.get_outtime());
     query->bindValue(":Status", pro_info.get_prostatus());
     query->bindValue(":Note", pro_info.get_pronote());
+    query->bindValue(":log", pro_info.get_log());
     if(!query->exec())
     {
         QMessageBox::warning(NULL, "warning", "添加数据出错");

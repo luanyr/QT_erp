@@ -33,3 +33,8 @@ QString pro_format::get_pronote()
 {
     return this->m_pro_note;
 }
+
+QString pro_format::get_log()
+{
+    return  this->m_pro_log;
+}
