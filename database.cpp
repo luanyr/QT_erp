@@ -48,7 +48,9 @@ bool DataBase::DataBase_createTab(QString tab_name,bool tab_type)
                       "[Enter_Time] varchar(30)," +
                       "[Out_Time] varchar(30)," +
                       "[Status] varchar(30)," +
-                      "[Note] varchar(30)" +
+                      "[Note] varchar(30)," +
+                      "[Logname] varchar," +
+                      "[Logcontent] blob"
                       ")";
         if(!query->exec(str))
             return false;
@@ -163,13 +165,14 @@ QStringList DataBase::DataBase_GetAllTab()
 void DataBase::DataBase_add_pro(pro_format &pro_info, QString tab_name)
 {
     query = new QSqlQuery;
-    query->prepare("INSERT INTO " + tab_name + " VALUES (:id,:Pro_No,:Enter_Time,:Out_Time,:Status,:Note,:log)");
+    query->prepare("INSERT INTO " + tab_name + " VALUES (:id,:Pro_No,:Enter_Time,:Out_Time,:Status,:Note,:Logname,:Logcontent)");
     query->bindValue(":Pro_No", pro_info.get_prono());
     query->bindValue(":Enter_Time", pro_info.get_entertime());
     query->bindValue(":Out_Time", pro_info.get_outtime());
     query->bindValue(":Status", pro_info.get_prostatus());
     query->bindValue(":Note", pro_info.get_pronote());
-    query->bindValue(":log", pro_info.get_log());
+    query->bindValue(":Logname", pro_info.get_logname());
+    query->bindValue(":Logcontent", pro_info.get_logcontent());
     if(!query->exec())
     {
         QMessageBox::warning(NULL, "warning", "添加数据出错");
@@ -183,7 +186,7 @@ void DataBase::DataBase_P2Tabview(QTableView *tabview, QString tabname)
 {
     static QSqlQueryModel *model = new QSqlQueryModel(tabview);
     model->setQuery("select * from " + tabname + ";");
-    model->setHeaderData(0, Qt::Horizontal,QObject::tr("序号"));
+    //model->setHeaderData(0, Qt::Horizontal,QObject::tr("序号"));
     model->setHeaderData(1, Qt::Horizontal,QObject::tr("板号"));
     model->setHeaderData(2, Qt::Horizontal,QObject::tr("进入时间"));
     model->setHeaderData(3, Qt::Horizontal,QObject::tr("离开时间"));

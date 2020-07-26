@@ -9,6 +9,7 @@ add_proinfo::add_proinfo(QWidget *parent) :
     this->set_format();
     connect(confirm_btn, &QPushButton::clicked, this, &add_proinfo::enable_push);
     connect(push_btn, &QPushButton::clicked, this, &add_proinfo::push2db);
+    connect(select_file_btn, &QPushButton::clicked, this, &add_proinfo::select_save_file);
 }
 
 add_proinfo::~add_proinfo()
@@ -105,6 +106,15 @@ void add_proinfo::set_format()
     push_btn->resize(100, 30);
     push_btn->setText("提交");
     push_btn->setDisabled(true);
+    /*测试日志lab&led*/
+    select_file_btn = new QPushButton(this);
+    select_file_btn->setFont(ft);
+    select_file_btn->move(10, 310);
+    select_file_btn->resize(100, 30);
+    select_file_btn->setText("选择保存文件");
+    file_path_lEd = new QLineEdit(this);
+    file_path_lEd->resize(100, 30);
+    file_path_lEd->move(10, 330);
 }
 
 void add_proinfo::enable_push()
@@ -131,5 +141,19 @@ void add_proinfo::push2db()
         UserDB->DataBase_add_pro((*new_pro_info), tabname);
     } else {
         QMessageBox::warning(this, "警告", "未输入板号");
+    }
+}
+
+void add_proinfo::select_save_file()
+{
+    file_path = QFileDialog::getOpenFileName(this, "Open file", ".");
+    if(!file_path.isEmpty()) {
+        QFile file(file_path);
+        if(file.open(QIODevice::ReadOnly)) {
+           QByteArray tdata = file.readAll();
+           file_conten = qCompress(tdata, 9);
+           qDebug() << file_conten.size();
+           this->file_path_lEd->setText(file_path);
+        }
     }
 }

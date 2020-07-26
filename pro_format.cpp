@@ -34,7 +34,12 @@ QString pro_format::get_pronote()
     return this->m_pro_note;
 }
 
-QString pro_format::get_log()
+QString pro_format::get_logname()
 {
-    return  this->m_pro_log;
+    return  this->m_pro_logname;
+}
+
+QByteArray pro_format::get_logcontent()
+{
+    return this->m_pro_logcontent;
 }

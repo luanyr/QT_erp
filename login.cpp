@@ -46,7 +46,7 @@ login::login(QWidget *parent) :
     UserDB = new DataBase("userinfo.db");
     UserDB->DataBase_Connect();
     UserDB->DataBase_createTab(QString("userinfo"), 0);
-    //UserDB->DataBase_insert(user_admin, 0, "userinfo");
+    UserDB->DataBase_insert(user_admin, 0, "userinfo");
     connect(login_btn, &QPushButton::clicked, this, &login::user_login);
 }
 
