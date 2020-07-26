@@ -5,7 +5,7 @@
 class pro_format
 {
 public:
-    pro_format(QString pro_no, QString enter_time, QString out_time, QString pro_status, QString pro_note);
+    pro_format(QString pro_no, QString enter_time, QString out_time, QString pro_status, QString pro_note, QString pro_logname, QByteArray pro_logcontent);
     QString get_prono();
     QString get_entertime();
     QString get_outtime();

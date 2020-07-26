@@ -49,8 +49,8 @@ bool DataBase::DataBase_createTab(QString tab_name,bool tab_type)
                       "[Out_Time] varchar(30)," +
                       "[Status] varchar(30)," +
                       "[Note] varchar(30)," +
-                      "[Logname] varchar," +
-                      "[Logcontent] blob"
+                      "[Logname] varchar(30)," +
+                      "[Logcontent] blob" +
                       ")";
         if(!query->exec(str))
             return false;
@@ -175,6 +175,7 @@ void DataBase::DataBase_add_pro(pro_format &pro_info, QString tab_name)
     query->bindValue(":Logcontent", pro_info.get_logcontent());
     if(!query->exec())
     {
+        qDebug() << query->lastError() << endl;
         QMessageBox::warning(NULL, "warning", "添加数据出错");
     } else {
         QMessageBox::information(NULL, "成功", "数据添加成功");
@@ -185,12 +186,13 @@ void DataBase::DataBase_add_pro(pro_format &pro_info, QString tab_name)
 void DataBase::DataBase_P2Tabview(QTableView *tabview, QString tabname)
 {
     static QSqlQueryModel *model = new QSqlQueryModel(tabview);
-    model->setQuery("select * from " + tabname + ";");
+    model->setQuery("select Pro_No,Enter_Time,Out_Time,Status,Note,Logname from " + tabname + ";");
     //model->setHeaderData(0, Qt::Horizontal,QObject::tr("序号"));
-    model->setHeaderData(1, Qt::Horizontal,QObject::tr("板号"));
-    model->setHeaderData(2, Qt::Horizontal,QObject::tr("进入时间"));
-    model->setHeaderData(3, Qt::Horizontal,QObject::tr("离开时间"));
-    model->setHeaderData(4, Qt::Horizontal,QObject::tr("状态"));
-    model->setHeaderData(5, Qt::Horizontal,QObject::tr("备注"));
+    model->setHeaderData(0, Qt::Horizontal,QObject::tr("板号"));
+    model->setHeaderData(1, Qt::Horizontal,QObject::tr("进入时间"));
+    model->setHeaderData(2, Qt::Horizontal,QObject::tr("离开时间"));
+    model->setHeaderData(3, Qt::Horizontal,QObject::tr("状态"));
+    model->setHeaderData(4, Qt::Horizontal,QObject::tr("备注"));
+    model->setHeaderData(5, Qt::Horizontal,QObject::tr("测试日志"));
     tabview->setModel(model);
 }

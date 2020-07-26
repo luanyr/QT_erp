@@ -8,6 +8,7 @@
 #include <QSqlQueryModel>
 #include <QStandardItemModel>
 #include <QTextCodec>
+#include <QModelIndex>
 #include "pro_format.h"
 #include "login.h"
 #include "add_new.h"
@@ -50,7 +51,8 @@ private:
     void display_all_tab();
     void set_tabname_cbx();
     void dis_pro_info();
-
+private slots:
+    void tab_doubleClick(const QModelIndex);
 };
 
 #endif // WIDGET_H

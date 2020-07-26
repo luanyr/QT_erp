@@ -59,6 +59,7 @@ private:
     QString push_note;
     QFileDialog *select_file;
     QByteArray file_conten;
+    QString log_filename;
 private slots:
     void enable_push();
     void push2db();

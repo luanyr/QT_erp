@@ -22,6 +22,7 @@ Widget::Widget(QWidget *parent)
     connect(Dis_AllTab_btn, &QPushButton::clicked, this, &Widget::display_all_tab);
     connect(dis_proinfo_btn, &QPushButton::clicked, this, &Widget::dis_pro_info);
     connect(add_pro_btn, &QPushButton::clicked, this, &Widget::add_pro);
+    connect(pro_tabview, SIGNAL(doubleClicked(const QModelIndex &)), this, SLOT(const QModelIndex &));
 }
 
 Widget::~Widget()
@@ -108,13 +109,14 @@ void Widget::display_all_tab()
     bool val = this->tablist.contains("sqlite_sequence");
     if(val == true)
     {
-        this->tablist.removeOne("sqlite_sequence");
+        //this->tablist.removeOne("sqlite_sequence");
     }
     QStringListIterator tabitr(this->tablist);
     while (tabitr.hasNext()) {
         QString tabname = tabitr.next().toLocal8Bit();
         this->tab_name_cbx->addItem(tabname);
     }
+    UserDB->DataBase_Close();
 }
 
 void Widget::set_tabview()
@@ -131,4 +133,15 @@ void Widget::dis_pro_info()
     UserDB->DataBase_Connect();
     QString tabname = this->tab_name_cbx->currentText().toLocal8Bit();
     UserDB->DataBase_P2Tabview(pro_tabview, tabname);
+    UserDB->DataBase_Close();
+}
+
+void Widget::tab_doubleClick(const QModelIndex index)
+{
+    QModelIndex tIndex = this->pro_tabview->currentIndex();
+    if(tIndex.isValid())
+    {
+
+        qDebug() <<
+    }
 }

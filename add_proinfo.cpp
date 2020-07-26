@@ -135,7 +135,7 @@ void add_proinfo::push2db()
         push_status = this->pro_status_cbx->currentText();
         push_note = this->pro_note_tEt->toPlainText();
         QString tabname = this->pro_name_cbx->currentText();
-        new_pro_info = new pro_format(push_no, push_entertime, push_outtime, push_status, push_note);
+        new_pro_info = new pro_format(push_no, push_entertime, push_outtime, push_status, push_note, log_filename, file_conten);
         UserDB = new DataBase("Production.db");
         UserDB->DataBase_Connect();
         UserDB->DataBase_add_pro((*new_pro_info), tabname);
@@ -149,11 +149,14 @@ void add_proinfo::select_save_file()
     file_path = QFileDialog::getOpenFileName(this, "Open file", ".");
     if(!file_path.isEmpty()) {
         QFile file(file_path);
+        QFileInfo fileinfo(file);
         if(file.open(QIODevice::ReadOnly)) {
            QByteArray tdata = file.readAll();
            file_conten = qCompress(tdata, 9);
-           qDebug() << file_conten.size();
+           log_filename = fileinfo.fileName();
            this->file_path_lEd->setText(file_path);
         }
+    } else {
+       QMessageBox::warning(this, "警告", "无此文件!");
     }
 }
