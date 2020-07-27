@@ -26,6 +26,7 @@ public:
     void DataBase_Close();
     void DataBase_displayTab(QString tab_name);
     QString DataBase_SelectTab(QString tab_name, QString type_name, QString real_name, QString return_typename);
+    QByteArray DataBase_SelectTab(QString tab_name, QString real_name);
     void DataBase_ClearTab(QString tab_name);
     bool DataBase_IsTabExist(QString tab_name);
     QStringList DataBase_GetAllTab();

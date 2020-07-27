@@ -22,7 +22,7 @@ Widget::Widget(QWidget *parent)
     connect(Dis_AllTab_btn, &QPushButton::clicked, this, &Widget::display_all_tab);
     connect(dis_proinfo_btn, &QPushButton::clicked, this, &Widget::dis_pro_info);
     connect(add_pro_btn, &QPushButton::clicked, this, &Widget::add_pro);
-    connect(pro_tabview, SIGNAL(doubleClicked(const QModelIndex &)), this, SLOT(const QModelIndex &));
+    connect(pro_tabview, SIGNAL(doubleClicked(const QModelIndex &)), this, SLOT(tab_doubleClick(const QModelIndex &)));
 }
 
 Widget::~Widget()
@@ -138,10 +138,14 @@ void Widget::dis_pro_info()
 
 void Widget::tab_doubleClick(const QModelIndex index)
 {
-    QModelIndex tIndex = this->pro_tabview->currentIndex();
-    if(tIndex.isValid())
-    {
 
-        qDebug() <<
-    }
+    QAbstractItemModel *imodel = this->pro_tabview->model();
+    QModelIndex Iindex = imodel->index(index.row(), 0);
+    QVariant datatemp = imodel->data(Iindex);
+    QString realname = datatemp.toString();
+    QString tabname = this->tab_name_cbx->currentText().toLocal8Bit();
+    UserDB = new DataBase("Production.db");
+    UserDB->DataBase_Connect();
+    QByteArray data = UserDB->DataBase_SelectTab(tabname, realname);
+    UserDB->DataBase_Close();
 }

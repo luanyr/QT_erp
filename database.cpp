@@ -99,6 +99,24 @@ QString DataBase::DataBase_SelectTab(QString tab_name, QString type_name, QStrin
     }
     return "0";
 }
+
+QByteArray DataBase::DataBase_SelectTab(QString tab_name, QString real_name)
+{
+    query = new QSqlQuery;
+    if(!query->exec(QString("select Logcontent from %1 where Pro_No='%2'").arg(tab_name).arg(real_name)))
+    {
+        qDebug() << query->lastError() << endl;
+        return 0;
+    } else {
+            query->next();
+            QByteArray tdata = query->value(0).toByteArray();
+            QByteArray data = qUncompress(tdata);
+            qDebug() << data << endl;
+            return data;
+
+    }
+}
+
 void DataBase::DataBase_displayTab(QString tab_name)
 {
     query = new QSqlQuery;
