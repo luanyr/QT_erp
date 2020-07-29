@@ -1,5 +1,6 @@
 #include "widget.h"
 #include "login.h"
+#include "log_dia.h"
 #include <QApplication>
 #include <QTextCodec>
 int main(int argc, char *argv[])

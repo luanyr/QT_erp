@@ -13,11 +13,11 @@ Widget::Widget(QWidget *parent)
     this->set_pushbutton();
     UserDB = new DataBase("Production.db");
     UserDB->DataBase_Connect();
-    //UserDB->DataBase_ClearTab("all");
+    UserDB->DataBase_ClearTab("all");
     this->set_tabname_cbx();
-    //pro_info = new pro_format("111", "0722", "0723", "OK", "good");
-    //UserDB->DataBase_add_pro(*pro_info, "vme");
-    this->set_tabview();
+//    pro_info = new pro_format("111", "0722", "0723", "OK", "good");
+//    UserDB->DataBase_add_pro(*pro_info, "vme");
+//    this->set_tabview();
     connect(add_new_btn, &QPushButton::clicked, this, &Widget::add_new);
     connect(Dis_AllTab_btn, &QPushButton::clicked, this, &Widget::display_all_tab);
     connect(dis_proinfo_btn, &QPushButton::clicked, this, &Widget::dis_pro_info);
@@ -109,7 +109,7 @@ void Widget::display_all_tab()
     bool val = this->tablist.contains("sqlite_sequence");
     if(val == true)
     {
-        //this->tablist.removeOne("sqlite_sequence");
+        this->tablist.removeOne("sqlite_sequence");
     }
     QStringListIterator tabitr(this->tablist);
     while (tabitr.hasNext()) {
@@ -138,15 +138,22 @@ void Widget::dis_pro_info()
 
 void Widget::tab_doubleClick(const QModelIndex index)
 {
+    if(index.column() == 5)//判断是否双击的log
+    {
+        QAbstractItemModel *imodel = this->pro_tabview->model();
+        QModelIndex Iindex = imodel->index(index.row(), (index.column() - 1));
+        QVariant datatemp = imodel->data(Iindex);
+        QString realname = datatemp.toString();
+        QString tabname = this->tab_name_cbx->currentText().toLocal8Bit();
+        UserDB = new DataBase("Production.db");
+        UserDB->DataBase_Connect();
+        QByteArray data = UserDB->DataBase_SelectTab(tabname, realname);
+        this->ld = new log_dia(this);
+        ld->set_log(data);
+        ld->exec();
+        UserDB->DataBase_Close();
+    } else if(index.column() == 0)
+    {
 
-    QAbstractItemModel *imodel = this->pro_tabview->model();
-    QModelIndex Iindex = imodel->index(index.row(), 0);
-    QVariant datatemp = imodel->data(Iindex);
-    QString realname = datatemp.toString();
-    QString tabname = this->tab_name_cbx->currentText().toLocal8Bit();
-    UserDB = new DataBase("Production.db");
-    UserDB->DataBase_Connect();
-    QByteArray data = UserDB->DataBase_SelectTab(tabname, realname);
-    
-    UserDB->DataBase_Close();
+    }
 }

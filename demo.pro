@@ -19,8 +19,10 @@ SOURCES += \
     add_new.cpp \
     add_proinfo.cpp \
     database.cpp \
+    log_dia.cpp \
     login.cpp \
     main.cpp \
+    modeify_proinf.cpp \
     pro_format.cpp \
     user_format.cpp \
     widget.cpp
@@ -29,7 +31,9 @@ HEADERS += \
     add_new.h \
     add_proinfo.h \
     database.h \
+    log_dia.h \
     login.h \
+    modeify_proinf.h \
     pro_format.h \
     user_format.h \
     widget.h
@@ -37,7 +41,9 @@ HEADERS += \
 FORMS += \
     add_new.ui \
     add_proinfo.ui \
+    log_dia.ui \
     login.ui \
+    modeify_proinf.ui \
     widget.ui
 
 # Default rules for deployment.

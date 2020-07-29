@@ -113,7 +113,6 @@ QByteArray DataBase::DataBase_SelectTab(QString tab_name, QString real_name)
             QByteArray data = qUncompress(tdata);
             qDebug() << data << endl;
             return data;
-
     }
 }
 

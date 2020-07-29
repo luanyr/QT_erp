@@ -13,6 +13,8 @@
 #include "login.h"
 #include "add_new.h"
 #include "add_proinfo.h"
+#include "log_dia.h"
+#include <QProcess>
 QT_BEGIN_NAMESPACE
 namespace Ui { class Widget; }
 QT_END_NAMESPACE
@@ -43,6 +45,7 @@ private:
     QPushButton *add_pro_btn;
     QComboBox *tab_name_cbx;
     pro_format *pro_info;
+    log_dia *ld;
     QTableView *pro_tabview;
     QStringList tablist;
     void set_tabview();
