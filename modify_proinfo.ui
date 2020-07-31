@@ -1,6 +1,6 @@
 <ui version="4.0">
- <class>modeify_proinf</class>
- <widget name="modeify_proinf" class="QDialog">
+ <class>modify_proinfo</class>
+ <widget class="QDialog" name="modify_proinfo">
   <property name="geometry">
    <rect>
     <x>0</x>

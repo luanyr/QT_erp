@@ -15,6 +15,7 @@
 #include "add_proinfo.h"
 #include "log_dia.h"
 #include <QProcess>
+#include "modify_proinfo.h"
 QT_BEGIN_NAMESPACE
 namespace Ui { class Widget; }
 QT_END_NAMESPACE
@@ -48,6 +49,7 @@ private:
     log_dia *ld;
     QTableView *pro_tabview;
     QStringList tablist;
+    class modify_proinfo *mdp;
     void set_tabview();
     void display_userandrole();
     void set_pushbutton();

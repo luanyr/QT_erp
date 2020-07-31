@@ -28,10 +28,10 @@ class add_proinfo : public QDialog
 public:
     explicit add_proinfo(QWidget *parent = nullptr);
     ~add_proinfo();
-
+protected:
+    void set_format();
 private:
     Ui::add_proinfo *ui;
-    void set_format();
     DataBase *UserDB;
     pro_format *new_pro_info;
     QLabel *pro_name_lab;

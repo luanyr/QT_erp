@@ -11,12 +11,12 @@ Widget::Widget(QWidget *parent)
     //输出用户名，以及权限；
     this->display_userandrole();
     this->set_pushbutton();
-    UserDB = new DataBase("Production.db");
-    UserDB->DataBase_Connect();
-    UserDB->DataBase_ClearTab("all");
+//    UserDB = new DataBase("Production.db");
+//    UserDB->DataBase_Connect();
+//    UserDB->DataBase_ClearTab("all");
     this->set_tabname_cbx();
-    //pro_info = new pro_format("111", "0722", "0723", "OK", "good");
-    //UserDB->DataBase_add_pro(*pro_info, "vme");
+//    pro_info = new pro_format("111", "0722", "0723", "OK", "good");
+//    UserDB->DataBase_add_pro(*pro_info, "vme");
     this->set_tabview();
     connect(add_new_btn, &QPushButton::clicked, this, &Widget::add_new);
     connect(Dis_AllTab_btn, &QPushButton::clicked, this, &Widget::display_all_tab);
@@ -154,6 +154,7 @@ void Widget::tab_doubleClick(const QModelIndex index)
         UserDB->DataBase_Close();
     } else if(index.column() == 0)
     {
-
+        mdp = new modify_proinfo(this);
+        mdp->exec();
     }
 }
