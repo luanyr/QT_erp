@@ -141,7 +141,7 @@ void Widget::tab_doubleClick(const QModelIndex index)
     if(index.column() == 5)//判断是否双击的log
     {
         QAbstractItemModel *imodel = this->pro_tabview->model();
-        QModelIndex Iindex = imodel->index(index.row(), (index.column() - 1));
+        QModelIndex Iindex = imodel->index(index.row(), (index.column() - 5));
         QVariant datatemp = imodel->data(Iindex);
         QString realname = datatemp.toString();
         QString tabname = this->tab_name_cbx->currentText().toLocal8Bit();
@@ -154,7 +154,29 @@ void Widget::tab_doubleClick(const QModelIndex index)
         UserDB->DataBase_Close();
     } else if(index.column() == 0)
     {
-        mdp = new modify_proinfo(this);
+
+        QAbstractItemModel *imodel = this->pro_tabview->model();
+        QModelIndex Iindex = imodel->index(index.row(), (index.column()));//pro no
+        QVariant datatemp = imodel->data(Iindex);
+        QString pro_no = datatemp.toString();
+        qDebug() << pro_no << endl;
+        Iindex = imodel->index(index.row(), (index.column() + 1));//entertime
+        datatemp = imodel->data(Iindex);
+        QString pro_entertime = datatemp.toString();
+        Iindex = imodel->index(index.row(), (index.column() + 2));//outtime
+        datatemp = imodel->data(Iindex);
+        QString pro_outime = datatemp.toString();
+        Iindex = imodel->index(index.row(), (index.column() + 3));//status
+        datatemp = imodel->data(Iindex);
+        QString pro_status = datatemp.toString();
+        Iindex = imodel->index(index.row(), (index.column() + 4));//note
+        datatemp = imodel->data(Iindex);
+        QString pro_note = datatemp.toString();
+        Iindex = imodel->index(index.row(), (index.column() + 5));//logname
+        datatemp = imodel->data(Iindex);
+        QString pro_logname = datatemp.toString();
+        pro_format modify_info(pro_no, pro_entertime, pro_outime, pro_status, pro_note, pro_logname);
+        mdp = new modify_proinfo(modify_info);
         mdp->exec();
     }
 }

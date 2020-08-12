@@ -9,7 +9,16 @@ pro_format::pro_format(QString pro_no, QString enter_time, QString out_time, QSt
     this->m_pro_note = pro_note;
     this->m_pro_logname = pro_logname;
     this->m_pro_logcontent = pro_logcontent;
+}
 
+pro_format::pro_format(QString pro_no, QString enter_time, QString out_time, QString pro_status, QString pro_note, QString pro_logname)
+{
+    this->m_pro_no = pro_no;
+    this->m_enter_time = enter_time;
+    this->m_out_time = out_time;
+    this->m_pro_status = pro_status;
+    this->m_pro_note = pro_note;
+    this->m_pro_logname = pro_logname;
 }
 
 QString pro_format::get_prono()

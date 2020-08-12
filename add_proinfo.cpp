@@ -129,9 +129,9 @@ void add_proinfo::push2db()
     {
         push_no = this->pro_no_lEd->text();
         QDate entertime = this->pro_enter_de->date();
-        push_entertime = entertime.toString();
+        push_entertime = entertime.toString("yyyy-MM-dd");
         QDate outtime = this->pro_out_de->date();
-        push_outtime = outtime.toString();
+        push_outtime = outtime.toString("yyyy-MM-dd");
         push_status = this->pro_status_cbx->currentText();
         push_note = this->pro_note_tEt->toPlainText();
         QString tabname = this->pro_name_cbx->currentText();

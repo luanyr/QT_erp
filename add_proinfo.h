@@ -30,6 +30,13 @@ public:
     ~add_proinfo();
 protected:
     void set_format();
+    QLineEdit *pro_no_lEd;
+    QLineEdit *file_path_lEd;
+    QDateEdit *pro_enter_de;
+    QDateEdit *pro_out_de;
+    QComboBox *pro_status_cbx;
+    QComboBox *pro_name_cbx;
+    QTextEdit *pro_note_tEt;
 private:
     Ui::add_proinfo *ui;
     DataBase *UserDB;
@@ -41,13 +48,6 @@ private:
     QLabel *pro_status_lab;
     QLabel *pro_note_lab;
     QLabel *pro_log_lab;
-    QLineEdit *pro_no_lEd;
-    QLineEdit *file_path_lEd;
-    QDateEdit *pro_enter_de;
-    QDateEdit *pro_out_de;
-    QComboBox *pro_status_cbx;
-    QComboBox *pro_name_cbx;
-    QTextEdit *pro_note_tEt;
     QPushButton *confirm_btn;
     QPushButton *push_btn;
     QPushButton *select_file_btn;
