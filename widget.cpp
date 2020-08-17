@@ -21,6 +21,7 @@ Widget::Widget(QWidget *parent)
     connect(add_new_btn, &QPushButton::clicked, this, &Widget::add_new);
     connect(Dis_AllTab_btn, &QPushButton::clicked, this, &Widget::display_all_tab);
     connect(dis_proinfo_btn, &QPushButton::clicked, this, &Widget::dis_pro_info);
+    connect(refresh_btn, &QPushButton::clicked, this, &Widget::refresh_pro_info);
     connect(add_pro_btn, &QPushButton::clicked, this, &Widget::add_pro);
     connect(pro_tabview, SIGNAL(doubleClicked(const QModelIndex &)), this, SLOT(tab_doubleClick(const QModelIndex &)));
 }
@@ -72,6 +73,10 @@ void Widget::set_pushbutton()
     add_pro_btn->move(390, 60);
     add_pro_btn->setFont(ft);
     add_pro_btn->setText("添加产品信息");
+    refresh_btn = new QPushButton(this);
+    refresh_btn->move(400,250);
+    refresh_btn->setFont(ft);
+    refresh_btn->setText("刷新");
 }
 
 void Widget::set_tabname_cbx()
@@ -179,4 +184,13 @@ void Widget::tab_doubleClick(const QModelIndex index)
         mdp = new modify_proinfo(modify_info);
         mdp->exec();
     }
+}
+
+void Widget::refresh_pro_info()
+{
+    UserDB = new DataBase("Production.db");
+    UserDB->DataBase_Connect();
+    QString tabname = this->tab_name_cbx->currentText().toLocal8Bit();
+    UserDB->DataBase_P2Tabview(pro_tabview, tabname);
+    UserDB->DataBase_Close();
 }

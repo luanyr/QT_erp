@@ -7,14 +7,17 @@ modify_proinfo::modify_proinfo(pro_format modify_info) :
 {
     ui->setupUi(this);
     this->set_format();
+    this->pro_no_lEd->setReadOnly(true);
     this->mdy_prono = modify_info.get_prono();
     this->mdy_proentertime = modify_info.get_entertime();
     this->mdy_proouttime = modify_info.get_outtime();
     this->mdy_prostatus = modify_info.get_prostatus();
     this->mdy_pronote = modify_info.get_pronote();
     this->mdy_filename = modify_info.get_logname();
-    qDebug() << this->mdy_prono << endl;
     set_modifycontent();
+    connect(confirm_btn, &QPushButton::clicked, this, &modify_proinfo::enable_push);
+    connect(push_btn, &QPushButton::clicked, this, &modify_proinfo::push2db);
+    connect(select_file_btn, &QPushButton::clicked, this, &modify_proinfo::select_save_file);
 }
 
 modify_proinfo::~modify_proinfo()
@@ -38,3 +41,21 @@ void modify_proinfo::set_modifycontent()
     this->pro_note_tEt->setText(mdy_pronote);
     this->file_path_lEd->setText(mdy_filename);
 }
+
+void modify_proinfo::push2db()
+{
+        push_no = this->pro_no_lEd->text();
+        QDate entertime = this->pro_enter_de->date();
+        push_entertime = entertime.toString("yyyy-MM-dd");
+        QDate outtime = this->pro_out_de->date();
+        push_outtime = outtime.toString("yyyy-MM-dd");
+        push_status = this->pro_status_cbx->currentText();
+        push_note = this->pro_note_tEt->toPlainText();
+        QString tabname = this->pro_name_cbx->currentText();
+        new_pro_info = new pro_format(push_no, push_entertime, push_outtime, push_status, push_note, log_filename, file_conten);
+        UserDB = new DataBase("Production.db");
+        UserDB->DataBase_Connect();
+        UserDB->DataBase_modify(tabname, push_no, *new_pro_info);
+}
+
+

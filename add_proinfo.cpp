@@ -20,6 +20,7 @@ add_proinfo::~add_proinfo()
 
 void add_proinfo::set_format()
 {
+    this->resize(600,400);
     QDate current_date = QDate::currentDate();
     QFont ft;
     ft.setPointSize(12);
@@ -32,12 +33,13 @@ void add_proinfo::set_format()
     UserDB->DataBase_Connect();
     pro_name_cbx = new QComboBox(this);
     pro_name_cbx->move(10, 50);
-    pro_name_cbx->resize(100, 20);
+    pro_name_cbx->resize(120, 30);
     QStringList tablist = UserDB->DataBase_GetAllTab();
     bool val = tablist.contains("sqlite_sequence");
     if(val == true)
     {
         tablist.removeOne("sqlite_sequence");
+        tablist.removeDuplicates();//去重
     }
     QStringListIterator tabitr(tablist);
     while(tabitr.hasNext())
@@ -48,73 +50,73 @@ void add_proinfo::set_format()
     UserDB->DataBase_Close();
     /*板号lab&linedit*/
     pro_no_lab = new QLabel(this);
-    pro_no_lab->move(210, 20);
+    pro_no_lab->move(10, 130);
     pro_no_lab->setFont(ft);
     pro_no_lab->setText(QString("板号"));
     pro_no_lEd = new QLineEdit(this);
-    pro_no_lEd->move(210, 50);
-    pro_no_lEd->resize(100, 20);
+    pro_no_lEd->move(10, 160);
+    pro_no_lEd->resize(120, 30);
     /*进入时间lab&date*/
     pro_entertime_lab = new QLabel(this);
-    pro_entertime_lab->move(10, 100);
+    pro_entertime_lab->move(210, 20);
     pro_entertime_lab->setFont(ft);
     pro_entertime_lab->setText(QString("进入时间"));
     pro_enter_de = new QDateEdit(this);
-    pro_enter_de->move(10, 130);
-    pro_enter_de->resize(100, 20);
+    pro_enter_de->move(210, 50);
+    pro_enter_de->resize(120, 30);
     pro_enter_de->setDate(current_date);
     pro_enter_de->setCalendarPopup(true);
     /*离开时间lab&date*/
     pro_outtime_lab = new QLabel(this);
-    pro_outtime_lab->move(210, 100);
+    pro_outtime_lab->move(210, 130);
     pro_outtime_lab->setFont(ft);
-    pro_outtime_lab->resize(100, 20);
+    pro_outtime_lab->resize(120, 30);
     pro_outtime_lab->setText(QString("离开时间"));
     pro_out_de = new QDateEdit(this);
-    pro_out_de->resize(100, 20);
-    pro_out_de->move(210, 130);
+    pro_out_de->resize(120, 30);
+    pro_out_de->move(210, 160);
     pro_out_de->setDate(current_date);
     pro_out_de->setCalendarPopup(true);
     /*状态lab&cbx*/
     pro_status_lab = new QLabel(this);
-    pro_status_lab->move(10, 180);
+    pro_status_lab->move(10, 240);
     pro_status_lab->setFont(ft);
     pro_status_lab->setText(QString("状态"));
     pro_status_cbx = new QComboBox(this);
-    pro_status_cbx->move(10, 210);
-    pro_status_cbx->resize(100, 20);
+    pro_status_cbx->move(10, 270);
+    pro_status_cbx->resize(120, 30);
     pro_status_cbx->addItem("待测试");
     pro_status_cbx->addItem("已测试");
     pro_status_cbx->addItem("测试出错");
     /*备注lab&led*/
     pro_note_lab = new QLabel(this);
-    pro_note_lab->move(210, 180);
+    pro_note_lab->move(360, 20);
     pro_note_lab->setFont(ft);
     pro_note_lab->setText(QString("备注"));
     pro_note_tEt = new QTextEdit(this);
-    pro_note_tEt->move(210, 210);
-    pro_note_tEt->resize(100,30);
+    pro_note_tEt->move(360, 50);
+    pro_note_tEt->resize(200,250);
     /*确认和提交btn*/
     confirm_btn = new QPushButton(this);
-    confirm_btn->move(10, 260);
+    confirm_btn->move(10, 350);
     confirm_btn->setFont(ft);
-    confirm_btn->resize(100, 30);
+    confirm_btn->resize(120, 30);
     confirm_btn->setText("请确认信息");
     push_btn = new QPushButton(this);
-    push_btn->move(210, 260);
+    push_btn->move(230, 350);
     push_btn->setFont(ft);
-    push_btn->resize(100, 30);
+    push_btn->resize(120, 30);
     push_btn->setText("提交");
     push_btn->setDisabled(true);
     /*测试日志lab&led*/
     select_file_btn = new QPushButton(this);
     select_file_btn->setFont(ft);
-    select_file_btn->move(10, 310);
-    select_file_btn->resize(100, 30);
-    select_file_btn->setText("选择保存文件");
+    select_file_btn->move(210, 240);
+    select_file_btn->resize(120, 30);
+    select_file_btn->setText("测试记录");
     file_path_lEd = new QLineEdit(this);
-    file_path_lEd->resize(100, 30);
-    file_path_lEd->move(10, 330);
+    file_path_lEd->resize(120, 30);
+    file_path_lEd->move(210, 270);
 }
 
 void add_proinfo::enable_push()
@@ -160,3 +162,4 @@ void add_proinfo::select_save_file()
        QMessageBox::warning(this, "警告", "无此文件!");
     }
 }
+

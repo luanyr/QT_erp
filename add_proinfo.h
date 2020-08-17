@@ -37,7 +37,9 @@ protected:
     QComboBox *pro_status_cbx;
     QComboBox *pro_name_cbx;
     QTextEdit *pro_note_tEt;
-private:
+    QPushButton *confirm_btn;
+    QPushButton *push_btn;
+    QPushButton *select_file_btn;
     Ui::add_proinfo *ui;
     DataBase *UserDB;
     pro_format *new_pro_info;
@@ -48,9 +50,6 @@ private:
     QLabel *pro_status_lab;
     QLabel *pro_note_lab;
     QLabel *pro_log_lab;
-    QPushButton *confirm_btn;
-    QPushButton *push_btn;
-    QPushButton *select_file_btn;
     QString file_path;
     QString push_no;
     QString push_entertime;
@@ -60,9 +59,9 @@ private:
     QFileDialog *select_file;
     QByteArray file_conten;
     QString log_filename;
-private slots:
+protected slots:
     void enable_push();
-    void push2db();
+    virtual void push2db();
     void select_save_file();
 };
 

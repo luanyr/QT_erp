@@ -31,6 +31,7 @@ public:
     bool DataBase_IsTabExist(QString tab_name);
     QStringList DataBase_GetAllTab();
     void DataBase_P2Tabview(QTableView *tabview, QString tabname);
+    bool DataBase_modify(QString tabname, QString prono, pro_format &pro_info);
 private:
     QSqlQuery *query;
     QSqlQueryModel *qmodel;

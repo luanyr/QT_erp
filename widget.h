@@ -44,6 +44,7 @@ private:
     QPushButton *Dis_AllTab_btn;
     QPushButton *dis_proinfo_btn;
     QPushButton *add_pro_btn;
+    QPushButton *refresh_btn;
     QComboBox *tab_name_cbx;
     pro_format *pro_info;
     log_dia *ld;
@@ -56,6 +57,7 @@ private:
     void display_all_tab();
     void set_tabname_cbx();
     void dis_pro_info();
+    void refresh_pro_info();
 private slots:
     void tab_doubleClick(const QModelIndex);
 };

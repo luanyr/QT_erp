@@ -25,6 +25,8 @@ private:
     QString mdy_prostatus;
     QString mdy_pronote;
     QString mdy_filename;
+    pro_format *m_modifyinfo;
+    virtual void push2db();
 };
 
 #endif // MODIFY_PROINFO_H

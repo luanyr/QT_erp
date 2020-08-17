@@ -213,3 +213,19 @@ void DataBase::DataBase_P2Tabview(QTableView *tabview, QString tabname)
     model->setHeaderData(5, Qt::Horizontal,QObject::tr("测试日志"));
     tabview->setModel(model);
 }
+
+bool DataBase::DataBase_modify(QString tabname, QString prono, pro_format &pro_info)
+{
+    query = new QSqlQuery;
+    QString str = "UPDATE " + tabname + " SET Enter_Time = '" + pro_info.get_entertime() + "',Out_Time = '" + pro_info.get_outtime()
+            + "',Status = '" + pro_info.get_prostatus() + "',Note = '" + pro_info.get_pronote() + "',Logname = '" + pro_info.get_logname()
+            + "',Logcontent = '" + pro_info.get_logcontent() + "' WHERE Pro_No = " + prono;
+   // QString str = "UPDATE " + tabname + " SET Enter_Time = '" + pro_info.get_entertime() + "' WHERE Pro_No = " +prono;
+    qDebug() << "enter time" << pro_info.get_entertime();
+    if(!query->exec(str))
+    {
+        qDebug() << query->lastError() << endl;
+        return false;
+    }
+    return true;
+}
