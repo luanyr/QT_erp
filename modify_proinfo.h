@@ -26,7 +26,12 @@ private:
     QString mdy_pronote;
     QString mdy_filename;
     pro_format *m_modifyinfo;
+    QPushButton *delete_btn;
+    void modify_setformat();
+    void delete_warning();
     virtual void push2db();
+
+
 };
 
 #endif // MODIFY_PROINFO_H

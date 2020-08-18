@@ -59,6 +59,7 @@ protected:
     QFileDialog *select_file;
     QByteArray file_conten;
     QString log_filename;
+    QFont ft;
 protected slots:
     void enable_push();
     virtual void push2db();

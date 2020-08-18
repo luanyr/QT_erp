@@ -69,7 +69,9 @@ void modify_proinfo::push2db()
 
 void modify_proinfo::delete_warning()
 {
-
+    if(QMessageBox::warning(this, "警告", "确认需要删除!",QMessageBox::Yes|QMessageBox::No)) {
+        
+    }
 
 }
 

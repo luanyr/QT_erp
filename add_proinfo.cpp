@@ -22,7 +22,6 @@ void add_proinfo::set_format()
 {
     this->resize(600,400);
     QDate current_date = QDate::currentDate();
-    QFont ft;
     ft.setPointSize(12);
     /*产品名lab&cbx*/
     pro_name_lab = new QLabel(this);
@@ -96,6 +95,14 @@ void add_proinfo::set_format()
     pro_note_tEt = new QTextEdit(this);
     pro_note_tEt->move(360, 50);
     pro_note_tEt->resize(200,250);
+    QString holderinfo = "请添加硬件与软件版本信息，异常状态（如有）及您认为需要备注的信息";
+    holderinfo += '\n';
+    holderinfo += "例如：<软件版本>：V1.00";
+    holderinfo += '\n';
+    holderinfo += "<异常>:无法上电";
+    holderinfo += '\n';
+    holderinfo += "<其他信息>:此办卡为客户返修";
+    pro_note_tEt->setPlaceholderText(holderinfo);
     /*确认和提交btn*/
     confirm_btn = new QPushButton(this);
     confirm_btn->move(10, 350);
