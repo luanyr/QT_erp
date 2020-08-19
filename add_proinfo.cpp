@@ -10,6 +10,7 @@ add_proinfo::add_proinfo(QWidget *parent) :
     connect(confirm_btn, &QPushButton::clicked, this, &add_proinfo::enable_push);
     connect(push_btn, &QPushButton::clicked, this, &add_proinfo::push2db);
     connect(select_file_btn, &QPushButton::clicked, this, &add_proinfo::select_save_file);
+    connect(this, &add_proinfo::add_ok, this, &add_proinfo::close);
 }
 
 add_proinfo::~add_proinfo()
@@ -87,6 +88,7 @@ void add_proinfo::set_format()
     pro_status_cbx->addItem("待测试");
     pro_status_cbx->addItem("已测试");
     pro_status_cbx->addItem("测试出错");
+    pro_status_cbx->addItem("维修中");
     /*备注lab&led*/
     pro_note_lab = new QLabel(this);
     pro_note_lab->move(360, 20);
@@ -147,7 +149,12 @@ void add_proinfo::push2db()
         new_pro_info = new pro_format(push_no, push_entertime, push_outtime, push_status, push_note, log_filename, file_conten);
         UserDB = new DataBase("Production.db");
         UserDB->DataBase_Connect();
-        UserDB->DataBase_add_pro((*new_pro_info), tabname);
+        if(UserDB->DataBase_add_pro((*new_pro_info), tabname) == true) {
+            UserDB->DataBase_Close();
+            emit add_ok();
+        } else {
+            emit add_failed();
+        }
     } else {
         QMessageBox::warning(this, "警告", "未输入板号");
     }
@@ -155,18 +162,22 @@ void add_proinfo::push2db()
 
 void add_proinfo::select_save_file()
 {
-    file_path = QFileDialog::getOpenFileName(this, "Open file", ".");
-    if(!file_path.isEmpty()) {
-        QFile file(file_path);
-        QFileInfo fileinfo(file);
-        if(file.open(QIODevice::ReadOnly)) {
-           QByteArray tdata = file.readAll();
-           file_conten = qCompress(tdata, 9);
-           log_filename = fileinfo.fileName();
-           this->file_path_lEd->setText(file_path);
-        }
+    if(pro_status_cbx->currentIndex() == 0) {
+      QMessageBox::warning(this, "警告", "目前状态为待测试，请先测试！");
     } else {
-       QMessageBox::warning(this, "警告", "无此文件!");
+        file_path = QFileDialog::getOpenFileName(this, "Open file", ".");
+        if(!file_path.isEmpty()) {
+            QFile file(file_path);
+            QFileInfo fileinfo(file);
+            if(file.open(QIODevice::ReadOnly)) {
+               QByteArray tdata = file.readAll();
+               file_conten = qCompress(tdata, 9);
+               log_filename = fileinfo.fileName();
+               this->file_path_lEd->setText(file_path);
+            }
+        } else {
+           QMessageBox::warning(this, "警告", "无此文件!");
+        }
     }
 }
 

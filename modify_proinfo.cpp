@@ -18,6 +18,8 @@ modify_proinfo::modify_proinfo(pro_format modify_info) :
     connect(confirm_btn, &QPushButton::clicked, this, &modify_proinfo::enable_push);
     connect(push_btn, &QPushButton::clicked, this, &modify_proinfo::push2db);
     connect(select_file_btn, &QPushButton::clicked, this, &modify_proinfo::select_save_file);
+    connect(delete_btn, &QPushButton::clicked, this, &modify_proinfo::delete_warning);
+    connect(this, &modify_proinfo::confirm_delete, this, &modify_proinfo::delete_proinfo);
 }
 
 modify_proinfo::~modify_proinfo()
@@ -64,12 +66,32 @@ void modify_proinfo::push2db()
         new_pro_info = new pro_format(push_no, push_entertime, push_outtime, push_status, push_note, log_filename, file_conten);
         UserDB = new DataBase("Production.db");
         UserDB->DataBase_Connect();
-        UserDB->DataBase_modify(tabname, push_no, *new_pro_info);
+        if(UserDB->DataBase_modify(tabname, push_no, *new_pro_info) == true) {
+            QMessageBox::information(this, "通知", "修改成功");
+        } else {
+            QMessageBox::information(this, "通知", "修改失败");
+        }
 }
 
 void modify_proinfo::delete_warning()
 {
-
+    if(QMessageBox::warning(this, "警告", "确认需要删除!",QMessageBox::Yes|QMessageBox::No)) {
+        emit confirm_delete();
+    } else {
+        emit cancel_delete();
+    }
 
 }
 
+void modify_proinfo::delete_proinfo()
+{
+    mdy_prono = this->pro_no_lEd->text();
+    QString tabname = this->pro_name_cbx->currentText();
+    UserDB = new DataBase("Production.db");
+    UserDB->DataBase_Connect();
+    if(UserDB->DataBase_delete(tabname, mdy_prono) == true) {
+        QMessageBox::information(this, "通知", "删除成功");
+    } else {
+        QMessageBox::information(this, "通知", "删除失败");
+    }
+}

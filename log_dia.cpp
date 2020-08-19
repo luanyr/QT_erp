@@ -17,7 +17,7 @@ log_dia::~log_dia()
 
 void log_dia::set_format()
 {
-    this->setWindowTitle("查看日志");
+    this->setWindowTitle("查看记录");
     QFont ft;
     ft.setPointSize(12);
     this->log_TEt = new QTextEdit(this);
@@ -32,9 +32,16 @@ void log_dia::set_format()
     exit_btn->setText("退出");
 }
 
+
 void log_dia::set_log(QByteArray Qba_log)
 {
 
     this->log_TEt->setText(Qba_log);
+    this->log_TEt->setReadOnly(true);
+}
+
+void log_dia::set_note(QString Qstr_note)
+{
+    this->log_TEt->setText(Qstr_note);
     this->log_TEt->setReadOnly(true);
 }

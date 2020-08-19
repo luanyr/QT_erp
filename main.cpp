@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
     if(lg->exec() == QDialog::Accepted)
     {
         Widget w;
-        w.setWindowTitle("产品管理系统");
+        w.setWindowTitle("产品管理系统v.10 by Mr.luan");
         w.show();
         return a.exec();
     }

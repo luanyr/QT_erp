@@ -100,21 +100,31 @@ QString DataBase::DataBase_SelectTab(QString tab_name, QString type_name, QStrin
     return "0";
 }
 
-QByteArray DataBase::DataBase_SelectTab(QString tab_name, QString real_name)
+QByteArray DataBase::DataBase_SelectTab(QString tab_name, QString real_name,QString type_name)
 {
     query = new QSqlQuery;
-    if(!query->exec(QString("select Logcontent from %1 where Pro_No='%2'").arg(tab_name).arg(real_name)))
+    if(!query->exec(QString("select %1 from %2 where Pro_No='%3'").arg(type_name).arg(tab_name).arg(real_name)))
     {
         qDebug() << query->lastError() << endl;
         return 0;
     } else {
+        if(type_name == "Logcontent")
+        {
             query->next();
             QByteArray tdata = query->value(0).toByteArray();
             QByteArray data = qUncompress(tdata);
             qDebug() << data << endl;
             return data;
+        } else {
+            query->next();
+            QByteArray tdata = query->value(0).toByteArray();
+            qDebug() << tdata << endl;
+            return tdata;
+        }
+
     }
 }
+
 
 void DataBase::DataBase_displayTab(QString tab_name)
 {
@@ -179,9 +189,18 @@ QStringList DataBase::DataBase_GetAllTab()
     return  tables;
 }
 
-void DataBase::DataBase_add_pro(pro_format &pro_info, QString tab_name)
+bool DataBase::DataBase_add_pro(pro_format &pro_info, QString tab_name)
 {
+
     query = new QSqlQuery;
+    //QString str = "SELECT Pro_No FROM " + tab_name + " WHERE Pro_No = '" + pro_info.get_prono() + "'";
+    QString str = "SELECT Pro_No FROM " + tab_name + " WHERE Pro_No = '6666'";
+    query->exec(str);
+    if(query->next()) {
+        //qDebug() << "size is " << query->size();
+        QMessageBox::warning(NULL, "警告", "当前板号已存在");
+        return false;
+    }
     query->prepare("INSERT INTO " + tab_name + " VALUES (:id,:Pro_No,:Enter_Time,:Out_Time,:Status,:Note,:Logname,:Logcontent)");
     query->bindValue(":Pro_No", pro_info.get_prono());
     query->bindValue(":Enter_Time", pro_info.get_entertime());
@@ -194,8 +213,10 @@ void DataBase::DataBase_add_pro(pro_format &pro_info, QString tab_name)
     {
         qDebug() << query->lastError() << endl;
         QMessageBox::warning(NULL, "warning", "添加数据出错");
+        return false;
     } else {
         QMessageBox::information(NULL, "成功", "数据添加成功");
+        return true;
     }
 
 }
@@ -219,9 +240,19 @@ bool DataBase::DataBase_modify(QString tabname, QString prono, pro_format &pro_i
     query = new QSqlQuery;
     QString str = "UPDATE " + tabname + " SET Enter_Time = '" + pro_info.get_entertime() + "',Out_Time = '" + pro_info.get_outtime()
             + "',Status = '" + pro_info.get_prostatus() + "',Note = '" + pro_info.get_pronote() + "',Logname = '" + pro_info.get_logname()
-            + "',Logcontent = '" + pro_info.get_logcontent() + "' WHERE Pro_No = " + prono;
-   // QString str = "UPDATE " + tabname + " SET Enter_Time = '" + pro_info.get_entertime() + "' WHERE Pro_No = " +prono;
-    qDebug() << "enter time" << pro_info.get_entertime();
+            + "',Logcontent = '" + pro_info.get_logcontent() + "' WHERE Pro_No = '" + prono + "'";
+    if(!query->exec(str))
+    {
+        qDebug() << query->lastError() << endl;
+        return false;
+    }
+    return true;
+}
+
+bool DataBase::DataBase_delete(QString tabname,QString prono)
+{
+    query = new QSqlQuery;
+    QString str = "DELETE FROM " + tabname + " WHERE Pro_No = '" + prono + "'";
     if(!query->exec(str))
     {
         qDebug() << query->lastError() << endl;

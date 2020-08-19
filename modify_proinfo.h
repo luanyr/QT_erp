@@ -30,8 +30,11 @@ private:
     void modify_setformat();
     void delete_warning();
     virtual void push2db();
-
-
+signals:
+    void confirm_delete();
+    void cancel_delete();
+private slots:
+    void delete_proinfo();
 };
 
 #endif // MODIFY_PROINFO_H

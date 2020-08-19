@@ -152,14 +152,13 @@ void Widget::tab_doubleClick(const QModelIndex index)
         QString tabname = this->tab_name_cbx->currentText().toLocal8Bit();
         UserDB = new DataBase("Production.db");
         UserDB->DataBase_Connect();
-        QByteArray data = UserDB->DataBase_SelectTab(tabname, realname);
+        QByteArray data = UserDB->DataBase_SelectTab(tabname, realname,  "Logcontent");
         this->ld = new log_dia(this);
         ld->set_log(data);
         ld->exec();
         UserDB->DataBase_Close();
     } else if(index.column() == 0)
     {
-
         QAbstractItemModel *imodel = this->pro_tabview->model();
         QModelIndex Iindex = imodel->index(index.row(), (index.column()));//pro no
         QVariant datatemp = imodel->data(Iindex);
@@ -183,6 +182,19 @@ void Widget::tab_doubleClick(const QModelIndex index)
         pro_format modify_info(pro_no, pro_entertime, pro_outime, pro_status, pro_note, pro_logname);
         mdp = new modify_proinfo(modify_info);
         mdp->exec();
+    } else if(index.column() == 4) {
+        QAbstractItemModel *imodel = this->pro_tabview->model();
+        QModelIndex Iindex = imodel->index(index.row(), (index.column() - 4));
+        QVariant datatemp = imodel->data(Iindex);
+        QString realname = datatemp.toString();
+        QString tabname = this->tab_name_cbx->currentText().toLocal8Bit();
+        UserDB = new DataBase("Production.db");
+        UserDB->DataBase_Connect();
+        QByteArray data = UserDB->DataBase_SelectTab(tabname, realname, "Note");
+        this->ld = new log_dia(this);
+        ld->set_note(data);
+        ld->exec();
+        UserDB->DataBase_Close();
     }
 }
 
@@ -194,3 +206,4 @@ void Widget::refresh_pro_info()
     UserDB->DataBase_P2Tabview(pro_tabview, tabname);
     UserDB->DataBase_Close();
 }
+
