@@ -193,13 +193,19 @@ bool DataBase::DataBase_add_pro(pro_format &pro_info, QString tab_name)
 {
 
     query = new QSqlQuery;
-    //QString str = "SELECT Pro_No FROM " + tab_name + " WHERE Pro_No = '" + pro_info.get_prono() + "'";
-    QString str = "SELECT Pro_No FROM " + tab_name + " WHERE Pro_No = '6666'";
-    query->exec(str);
-    if(query->next()) {
-        //qDebug() << "size is " << query->size();
-        QMessageBox::warning(NULL, "警告", "当前板号已存在");
+    QString str = "select count(*) from " + tab_name + " where Pro_No = '" + pro_info.get_prono() + "';";
+    if(!query->exec(str)) {
+        qDebug() << query->lastError() << endl;
         return false;
+    }
+    if(query->next()) {
+        if(query->isActive()) {
+            if(query->value(0).toInt()) {
+                query->finish();
+                QMessageBox::critical(NULL, "错误", "板号已存在");
+                return false;
+            }
+        }
     }
     query->prepare("INSERT INTO " + tab_name + " VALUES (:id,:Pro_No,:Enter_Time,:Out_Time,:Status,:Note,:Logname,:Logcontent)");
     query->bindValue(":Pro_No", pro_info.get_prono());
@@ -211,14 +217,15 @@ bool DataBase::DataBase_add_pro(pro_format &pro_info, QString tab_name)
     query->bindValue(":Logcontent", pro_info.get_logcontent());
     if(!query->exec())
     {
+        query->finish();
         qDebug() << query->lastError() << endl;
         QMessageBox::warning(NULL, "warning", "添加数据出错");
         return false;
     } else {
+        query->finish();
         QMessageBox::information(NULL, "成功", "数据添加成功");
         return true;
     }
-
 }
 
 void DataBase::DataBase_P2Tabview(QTableView *tabview, QString tabname)
@@ -233,6 +240,8 @@ void DataBase::DataBase_P2Tabview(QTableView *tabview, QString tabname)
     model->setHeaderData(4, Qt::Horizontal,QObject::tr("备注"));
     model->setHeaderData(5, Qt::Horizontal,QObject::tr("测试日志"));
     tabview->setModel(model);
+    tabview->setSelectionMode(QAbstractItemView::SingleSelection);
+    tabview->setSelectionBehavior(QAbstractItemView::SelectRows);
 }
 
 bool DataBase::DataBase_modify(QString tabname, QString prono, pro_format &pro_info)

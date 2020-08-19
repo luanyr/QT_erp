@@ -7,10 +7,12 @@ add_proinfo::add_proinfo(QWidget *parent) :
 {
     ui->setupUi(this);
     this->set_format();
-    connect(confirm_btn, &QPushButton::clicked, this, &add_proinfo::enable_push);
+    connect(confirm_btn, &QPushButton::clicked, this, &add_proinfo::confirm_proinfo);
+    connect(this, &add_proinfo::confirm_sig, this, &add_proinfo::enable_push);
     connect(push_btn, &QPushButton::clicked, this, &add_proinfo::push2db);
     connect(select_file_btn, &QPushButton::clicked, this, &add_proinfo::select_save_file);
     connect(this, &add_proinfo::add_ok, this, &add_proinfo::close);
+    connect(this, &add_proinfo::add_failed, this, &add_proinfo::close);
 }
 
 add_proinfo::~add_proinfo()
@@ -135,9 +137,6 @@ void add_proinfo::enable_push()
 
 void add_proinfo::push2db()
 {
-
-    if(!this->pro_no_lEd->text().isEmpty())
-    {
         push_no = this->pro_no_lEd->text();
         QDate entertime = this->pro_enter_de->date();
         push_entertime = entertime.toString("yyyy-MM-dd");
@@ -150,14 +149,10 @@ void add_proinfo::push2db()
         UserDB = new DataBase("Production.db");
         UserDB->DataBase_Connect();
         if(UserDB->DataBase_add_pro((*new_pro_info), tabname) == true) {
-            UserDB->DataBase_Close();
             emit add_ok();
         } else {
             emit add_failed();
         }
-    } else {
-        QMessageBox::warning(this, "警告", "未输入板号");
-    }
 }
 
 void add_proinfo::select_save_file()
@@ -179,5 +174,15 @@ void add_proinfo::select_save_file()
            QMessageBox::warning(this, "警告", "无此文件!");
         }
     }
+}
+
+void add_proinfo::confirm_proinfo()
+{
+    if(!this->pro_no_lEd->text().isEmpty() || !this->pro_note_tEt->document()->isEmpty() || !file_conten.isEmpty()) {
+        emit confirm_sig();
+    } else {
+        QMessageBox::warning(this, "警告", "未输入板号、备注或测试记录");
+    }
+
 }
 

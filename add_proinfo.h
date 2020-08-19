@@ -64,9 +64,11 @@ protected slots:
     void enable_push();
     virtual void push2db();
     void select_save_file();
+    void confirm_proinfo();
 signals:
     void add_ok();
     void add_failed();
+    void confirm_sig();
 };
 
 #endif // ADD_PROINFO_H
